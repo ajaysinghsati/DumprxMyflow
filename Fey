@@ -10,11 +10,11 @@ env:
 
   # Private SSH Key
   PRIV_SSH_KEY: ENCRYPTED[!932f7adbb016d06695de3c3b7ac569ac86159be7110c3d869ee0c1ec92e1199e79ca6b4fea68d46296cba9cc16d52e82!]
-
 task:
-  name: "DumprX-1"
-  only_if: $CIRRUS_REPO_OWNER == 'ajaysinghsati'
+  name: "Firmware Dump by DumprX"
+  only_if: $CIRRUS_REPO_OWNER == 'DumprX'
   skip: $CIRRUS_BRANCH == 'main'
+  auto_cancellation: $CIRRUS_BRANCH == 'autocancel'
   timeout_in: 120m
   container:
       image: ghcr.io/sushrut1101/docker:arch
@@ -28,6 +28,7 @@ task:
       - mkdir -p ~/.ssh
       - ssh-keyscan -t rsa github.com >> ~/.ssh/known_hosts
       - ssh-keyscan -t rsa gitlab.com >> ~/.ssh/known_hosts
+      - ssh-keyscan -t rsa $GITLAB_INSTANCE >> ~/.ssh/known_hosts
       - echo "$PRIV_SSH_KEY" > ~/.ssh/id_rsa
       - chmod 600 ~/.ssh/id_rsa
 
@@ -39,8 +40,9 @@ task:
       - echo "$GITLAB_GROUP" > .gitlab_group
       - echo "$TG_CHAT" > .tg_chat
       - echo "$TG_TOKEN" > .tg_token
+      - echo "$GITLAB_INSTANCE" > .gitlab_instance
       - sudo bash setup.sh
 
   DumprX_script:
       - cd DumprX || echo "Already in the Directory"
-      - ./dumper.sh $(cat ../*.json | jq -r .\"1\")
+      - ./dumper.sh $(< ${CIRRUS_WORKING_DIR}/ROM_URL.txt)
