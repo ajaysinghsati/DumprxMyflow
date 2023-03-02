@@ -10,8 +10,7 @@ env:
   GITLAB_INSTANCE: www.opencode.net
   
   # Private SSH Key
-  PRIV_SSH_KEY: ENCRYPTED[!932f7adbb016d06695de3c3b7ac569ac86159be7110c3d869ee0c1ec92e1199e79ca6b4fea68d46296cba9cc16d52e82!]
-
+  PRIV_SSH_KEY: $(< ${CIRRUS_WORKING_DIR}/Pivssh.txt)
 task:
   name: "Firmware Dump by DumprX"
   only_if: $CIRRUS_REPO_OWNER == 'ajaysinghsati'
