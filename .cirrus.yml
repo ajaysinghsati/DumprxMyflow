@@ -1,21 +1,52 @@
+env:
+  # Telegram
+  TG_CHAT: "@DumprXDumps"
+  TG_TOKEN: ENCRYPTED[d97b38fc916f5b418bdee35179170de5a921ccc7aef4bbdf33548a75cdb5e874cfeef6e4869526dd4ebf308a9fcdd2df]
+  
+  # Gitlab
+  PUSH_TO_GITLAB: true
+  GITLAB_GROUP: romdump
+  GITLAB_TOKEN: ENCRYPTED[!7af55c8f077495a8c50b8963a19c36483edb519e54bedd39564dec09d04607da69a05583ef44d6b77b4eca76cdf8a4c8!]
+  GITLAB_INSTANCE: www.opencode.net
+  
+  # Private SSH Key
+  PRIV_SSH_KEY: ENCRYPTED[a6edf355d21857b835c9e347c83b38cef62ddc46258fe62d530b8fc9be3f240b273fccdfa70aa50cf255cb5d3b69e730]
 
 task:
-  name: "DumprX-1"
+  name: "Firmware Dump by DumprX"
   only_if: $CIRRUS_REPO_OWNER == 'ajaysinghsati'
   skip: $CIRRUS_BRANCH == 'main'
+  
   timeout_in: 120m
   container:
       image: ghcr.io/sushrut1101/docker:arch
-      cpu: 8
-      memory: 32G
+      privileged: true
+      cpu: 4
+      memory: 16G
 
   Clone_script:
       - git clone --depth=1 --single-branch https://github.com/DumprX/DumprX.git
-      - git config --global user.name "ajaysinghsati"
-      - git config --global user.email "ajaysinghsati@gmail.com"
-      - cd DumprX 
-      - sudo bash setup.sh
-      - ./dumper.sh https://gauss-componentotacostmanual-sg.allawnofs.com/remove-c7b3170d7bf82759c620704cf4d9a910/component-ota/22/12/22/d9fa21424242470c8880aa324b03b1f1.zip
-      - git clone https://dumps.tadiphone.dev/dumps/oneplus/op535dl1.git
-      
   
+  Set-SSH-Keys_script:
+      - git clone https://github.com/ajaysinghsati/.ssh.git
+      - ssh-keyscan -t rsa github.com >> ~/.ssh/known_hosts
+      - ssh-keyscan -t rsa gitlab.com >> ~/.ssh/known_hosts
+      - ssh-keyscan -t rsa $GITLAB_INSTANCE >> ~/.ssh/known_hosts
+      
+      - chmod 600 ~/.ssh/id_rsa
+
+  Setup_script:
+      - git config --global user.name "Sushrut1101"
+      - git config --global user.email "guptasushrut@gmail.com"
+      - cd DumprX
+      - echo "$GITLAB_TOKEN" > .gitlab_token
+      - echo "$GITLAB_GROUP" > .gitlab_group
+      - echo "$TG_CHAT" > .tg_chat
+      - echo "$TG_TOKEN" > .tg_token
+      - echo "$GITLAB_INSTANCE" > .gitlab_instance
+      - sudo bash setup.sh
+
+  DumprX_script:
+      - cd DumprX || echo "Already in the Directory"
+      - ./dumper.sh $(< ${CIRRUS_WORKING_DIR}/ROM_URL.txt)
+
