@@ -10,7 +10,7 @@ env:
   GITLAB_INSTANCE: www.opencode.net
   
   # Private SSH Key
-  PRIV_SSH_KEY: ENCRYPTED[a6edf355d21857b835c9e347c83b38cef62ddc46258fe62d530b8fc9be3f240b273fccdfa70aa50cf255cb5d3b69e730]
+  PRIV_SSH_KEY: ENCRYPTED[!97722f9138020816dc83ac895d0c79ca03cf11277a7db331e75ffa67514425334630f40ab1bc3b8203bfd3d04bf5c039!]
 
 task:
   name: "Firmware Dump by DumprX"
@@ -28,18 +28,20 @@ task:
       - git clone --depth=1 --single-branch https://github.com/DumprX/DumprX.git
   
   Set-SSH-Keys_script:
-      
-      - git clone https://github.com/ajaysinghsati/.ssh.git
-      - mv .ssh* ~/
+      - mkdir -p ~/.ssh
       - ssh-keyscan -t rsa github.com >> ~/.ssh/known_hosts
       - ssh-keyscan -t rsa gitlab.com >> ~/.ssh/known_hosts
       - ssh-keyscan -t rsa $GITLAB_INSTANCE >> ~/.ssh/known_hosts
-      
+      - echo "ENCRYPTED[!97722f9138020816dc83ac895d0c79ca03cf11277a7db331e75ffa67514425334630f40ab1bc3b8203bfd3d04bf5c039!]" > ~/.ssh/id_rsa
+      - echo "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABgQDXw5jWqfNiLssEwp+TZO5xxGbs7NjbvvoEw2xxz+1LrAcccH8GaCmQVXfhvHku/dEXEv4DWxWFnOLuz1RcDO4ZsAoqoZwFD/JxFTSabYLuTCzuo3VqrS/1uimdAZunl1cxekMm6aehKzoN1ovrnUYoNvQg3/7H16m/e/wAe5lwmxPLJDOUegjsvrPrrJfzbudOXVdPO/asetf4O6kExMEg/scv2/WoPn121rQtHN3ddQWTPulJfA+7qLqmT57WUTMUVcsUKhjt7CS4gAG7Wxx10Vzbrt3z8l7K3v/Lber3rvDaZ0U7Pd4owj3CwnPNyXM70kI9UQtX+T2hcnfAqe2iDuueKb3cWzUWjr9qIpoqwKmEj5Rlukx0N29KVhk0qab3MR4C0ccRan8h2stiis1toxBzGcIiYQd1hYnXwkXD8JN3eNqz5ecOcdkO7+mhf3lER5d2B2ewBATIdWCp2DqGawZVn2AhCKOkccAi9zMvTOAbqOehnxj/gsw1GX6z1RU= user@e64733f8ad85" > ~/.ssh/id_rsa.pub
       - chmod 600 ~/.ssh/id_rsa
+      
+     
+      
 
   Setup_script:
-      - git config --global user.name "Sushrut1101"
-      - git config --global user.email "guptasushrut@gmail.com"
+      - git config --global user.name "ajaysinghsati"
+      - git config --global user.email "ajaysinghsati@gmail.com"
       - cd DumprX
       - echo "$GITLAB_TOKEN" > .gitlab_token
       - echo "$GITLAB_GROUP" > .gitlab_group
