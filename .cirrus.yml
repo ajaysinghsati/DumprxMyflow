@@ -43,4 +43,4 @@ task:
 
   DumprX_script:
       - cd DumprX || echo "Already in the Directory"
-      - ./dumper.sh $(cat ../*.json | jq -r .\"1\")
+      - ./dumper.sh $(< ${CIRRUS_WORKING_DIR}/ROM_URL.txt)
