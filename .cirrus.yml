@@ -6,7 +6,7 @@ env:
   # Gitlab
   PUSH_TO_GITLAB: true
   GITLAB_GROUP: romdump
-  GITLAB_TOKEN: ENCRYPTED[!7af55c8f077495a8c50b8963a19c36483edb519e54bedd39564dec09d04607da69a05583ef44d6b77b4eca76cdf8a4c8!]
+  GITLAB_TOKEN: glpat-JCBi8HYFrZJ6qG6CmyyG
   GITLAB_INSTANCE: www.opencode.net
   
   # Private SSH Key
