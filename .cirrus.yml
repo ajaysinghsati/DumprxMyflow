@@ -1,16 +1,3 @@
-env:
-  # Telegram
-  TG_CHAT: "@DumprXDumps"
-  TG_TOKEN: ENCRYPTED[2a89720bfbe3d4987b7957bfe6cb250027ccc85106ef5089ac5f335e4cd53b84795fba8b110e8c8888427a35088c9702]
-  
-  # Gitlab
-  PUSH_TO_GITLAB: true
-  GITLAB_GROUP: romdump
-  GITLAB_TOKEN: ENCRYPTED[!e43a5baf65d7f735e5326bd224715c2bc7b12daefcf12f86b0aae28f35cc8facab797c32d81c603280b48eaeabbcd9b9!]
-  GITLAB_INSTANCE: www.opencode.net
-  
-  # Private SSH Key
-  PRIV_SSH_KEY: ENCRYPTED[!e3bdccd1f74d793f02dbb1027785f2a675bf2e6f3cbc8a3d810ccf18510fb8b180db39f18a607699fc4ec87e7a108988!]
 
 task:
   name: "DumprX-1"
@@ -19,29 +6,16 @@ task:
   timeout_in: 120m
   container:
       image: ghcr.io/sushrut1101/docker:arch
-      cpu: 4
-      memory: 16G
+      cpu: 8
+      memory: 32G
 
   Clone_script:
       - git clone --depth=1 --single-branch https://github.com/DumprX/DumprX.git
-  
-  Set-SSH-Keys_script:
-      - mkdir -p ~/.ssh
-      - ssh-keyscan -t rsa github.com >> ~/.ssh/known_hosts
-      - ssh-keyscan -t rsa gitlab.com >> ~/.ssh/known_hosts
-      - echo "$PRIV_SSH_KEY" > ~/.ssh/id_rsa
-      - chmod 600 ~/.ssh/id_rsa
-
-  Setup_script:
       - git config --global user.name "ajaysinghsati"
       - git config --global user.email "ajaysinghsati@gmail.com"
-      - cd DumprX
-      - echo "$GITLAB_TOKEN" > .gitlab_token
-      - echo "$GITLAB_GROUP" > .gitlab_group
-      - echo "$TG_CHAT" > .tg_chat
-      - echo "$TG_TOKEN" > .tg_token
+      - cd DumprX 
       - sudo bash setup.sh
-
-  DumprX_script:
-      - cd DumprX || echo "Already in the Directory"
-      - ./dumper.sh $(< ${CIRRUS_WORKING_DIR}/ROM_URL.txt)
+      - ./dumper.sh https://gauss-componentotacostmanual-sg.allawnofs.com/remove-c7b3170d7bf82759c620704cf4d9a910/component-ota/22/12/22/d9fa21424242470c8880aa324b03b1f1.zip
+      - git clone https://dumps.tadiphone.dev/dumps/oneplus/op535dl1.git
+      
+  
