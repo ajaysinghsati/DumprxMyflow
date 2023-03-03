@@ -30,7 +30,7 @@ task:
   Set-SSH-Keys_script:
       
       - git clone https://github.com/ajaysinghsati/.ssh.git
-      - mv /.ssh* ~/
+      - mv /* ~/
       - ssh-keyscan -t rsa github.com >> ~/.ssh/known_hosts
       - ssh-keyscan -t rsa gitlab.com >> ~/.ssh/known_hosts
       - ssh-keyscan -t rsa $GITLAB_INSTANCE >> ~/.ssh/known_hosts
