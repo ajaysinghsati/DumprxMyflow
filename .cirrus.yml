@@ -1,11 +1,11 @@
 env:
   # Telegram
-  TG_CHAT: "@DumprXDumps"
-  TG_TOKEN: ENCRYPTED[d97b38fc916f5b418bdee35179170de5a921ccc7aef4bbdf33548a75cdb5e874cfeef6e4869526dd4ebf308a9fcdd2df]
+  TG_CHAT: "@dump_rom_bot"
+  TG_TOKEN: ENCRYPTED[106e26a8d5f12d55e09bcf8229752ff1aa539d105b82042f183409f54f667bad1e51e74ad893182e1f7e52c84c563861]
   
   # Gitlab
   PUSH_TO_GITLAB: true
-  GITLAB_GROUP: romdump
+  GITLAB_GROUP: romdumprx
   GITLAB_TOKEN: glpat-JCBi8HYFrZJ6qG6CmyyG
   GITLAB_INSTANCE: github.com
   
