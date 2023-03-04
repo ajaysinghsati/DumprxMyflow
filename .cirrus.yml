@@ -36,8 +36,10 @@ task:
       
       - chmod 600 ~/.ssh/id_rsa
       - cd ~/.ssh 
+      - ls
       - cat id_rsa.pub
-      - cd
+      - cd 
+      - ls
       
 
   Setup_script:
