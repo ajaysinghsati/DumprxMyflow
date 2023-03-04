@@ -28,8 +28,11 @@ task:
       - cd DumprX || echo "Already in the Directory"
       - ./dumper.sh $(< ${CIRRUS_WORKING_DIR}/ROM_URL.txt)
       - cd out 
-      - ls
+      - cd lineage-device-tree
       - git init 
-      - git add.
+      - git add .
+      - git commit -m "first commit"
+      - git branch -M main
+      - git push https://phhgsi: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@github.com/phhgsi/lineage-device-tree.git
       
 
